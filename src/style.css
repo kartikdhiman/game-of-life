@@ -1,0 +1,222 @@
+:root {
+  /* Base color scheme (light mode defaults) */
+  --color-background: #f5f5f7;
+  --color-text: #333333;
+  --color-heading: #1d1d1f;
+  --color-grid-bg: #d1d1d6;
+  --color-cell-border: #b8b8bf;
+  --color-cell-live: #2c2c2e;
+  --color-cell-dead: transparent;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow-cell: rgba(0, 0, 0, 0.2);
+
+  /* Button colors - light mode */
+  --button-primary-bg: #0071e3;
+  --button-primary-text: white;
+  --button-clear-bg: #e05d44;
+  --button-clear-text: white;
+  --button-focus-outline: #0071e3;
+
+  /* Size and spacing */
+  --cell-size: 48px;
+  --grid-gap: 1px;
+  --corner-radius: 4px;
+  --padding-container: 10px;
+  --padding-page: 20px;
+
+  /* Button styling */
+  --button-padding-block: 0.5rem;
+  --button-padding-inline: 1rem;
+  --button-font-size: 1.25rem;
+  --button-radius: 0.3rem;
+  --button-hover-opacity: 0.9;
+  --button-active-scale: 0.98;
+}
+
+/* Base styles with modern reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  padding: var(--padding-page);
+  background-color: var(--color-background);
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  & h1 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--color-heading);
+  }
+}
+
+/* Container layouts using nesting */
+#gridContainer {
+  padding-bottom: var(--padding-container);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    width: 80%;
+    max-width: 200px;
+  }
+}
+
+/* Game grid styling with nesting */
+table {
+  background-color: var(--color-grid-bg);
+  border-radius: var(--corner-radius);
+  border-spacing: var(--grid-gap);
+  border-collapse: separate;
+  box-shadow: 0 4px 6px var(--color-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  & td {
+    border: 1px solid var(--color-cell-border);
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border-radius: calc(var(--corner-radius) / 2);
+    transition: background-color 0.15s ease-in-out, border-color 0.3s ease;
+
+    &.dead {
+      background-color: var(--color-cell-dead);
+    }
+
+    &.live {
+      background-color: var(--color-cell-live);
+      box-shadow: 0 0 2px var(--color-shadow-cell);
+    }
+
+    @media (prefers-reduced-motion) {
+      transition: none;
+    }
+  }
+}
+
+/* Button styling with nesting */
+button {
+  cursor: pointer;
+  padding: var(--button-padding-block) var(--button-padding-inline);
+  font-size: var(--button-font-size);
+  border-radius: var(--button-radius);
+  border: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
+  min-width: 100px;
+
+  &:hover {
+    opacity: var(--button-hover-opacity);
+  }
+
+  &:active {
+    transform: scale(var(--button-active-scale));
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--button-focus-outline);
+    outline-offset: 2px;
+  }
+
+  /* Button variants */
+  &.btn-primary {
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text);
+  }
+
+  &.btn-clear {
+    background-color: var(--button-clear-bg);
+    color: var(--button-clear-text);
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  :root {
+    --cell-size: 16px;
+    --button-font-size: 1rem;
+  }
+}
+
+/* Dark theme optimizations with proper color contrast */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #121214;
+    --color-text: #f5f5f7;
+    --color-heading: #ffffff;
+    --color-grid-bg: #2c2c2e;
+    --color-cell-border: #48484a;
+    --color-cell-live: #f5f5f7;
+    --color-cell-dead: transparent;
+    --color-shadow: rgba(0, 0, 0, 0.4);
+    --color-shadow-cell: rgba(255, 255, 255, 0.15);
+
+    /* Button colors - dark mode */
+    --button-primary-bg: #0a84ff;
+    --button-primary-text: white;
+    --button-clear-bg: #ff453a;
+    --button-clear-text: white;
+    --button-focus-outline: #0a84ff;
+  }
+
+  body & h1 {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition: background-color 0.5s ease;
+  }
+
+  table,
+  td {
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+  }
+}
+
+/* Enhanced grid view with better contrast in both modes */
+table {
+  & td {
+    &.live {
+      transform: scale(1.03);
+      transition: transform 0.1s ease, background-color 0.15s ease-in-out;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    @media (prefers-reduced-motion) {
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+}
