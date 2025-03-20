@@ -9,6 +9,11 @@
       content="Conway's Game of Life implemented with modern web technologies"
     />
     <title>Game Of Life</title>
+    <!-- Add Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script type="module" src="./src/app.js"></script>
   </head>
   <body>
@@ -16,8 +21,19 @@
     <div id="gridContainer"></div>
 
     <div id="controls">
-      <button type="button" id="start" class="btn-primary">start</button>
-      <button type="button" id="clear" class="btn-clear">clear</button>
+      <button type="button" id="start" class="btn-primary">
+        <span class="icon"><i class="fas fa-play"></i></span>
+        <span class="text">start</span>
+      </button>
+      <button type="button" id="clear" class="btn-clear">
+        <span class="icon"><i class="fas fa-trash"></i></span>
+        <span class="text">clear</span>
+      </button>
+    </div>
+
+    <div class="keyboard-shortcuts">
+      <p><kbd>Space</kbd> - Start/Pause simulation</p>
+      <p><kbd>Delete</kbd> - Clear grid</p>
     </div>
   </body>
 </html>

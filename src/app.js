@@ -1,151 +1,129 @@
 import './style.css';
 import GameOfLife from './life.js';
 
-/**
- * UI Controller for Game of Life
- */
-class GameOfLifeUI {
-  constructor(rows = 32, cols = 32, reproductionTime = 100) {
-    this.game = new GameOfLife(rows, cols);
-    this.playing = false;
-    this.timer = null;
-    this.reproductionTime = reproductionTime;
-  }
+// Game settings
+const ROWS = 16;
+const COLS = 16;
+const UPDATE_INTERVAL_MS = 150;
 
-  /**
-   * Initialize the game UI
-   */
-  initialize() {
-    this.createTable();
-    this.setUpControlButtons();
-  }
+// Game state
+let isRunning = false;
+let intervalId = null;
+const game = new GameOfLife(ROWS, COLS);
 
-  /**
-   * Create the game board table
-   */
-  createTable() {
-    const gridContainer = document.getElementById("gridContainer");
-    if (!gridContainer) {
-      console.error("Problem: no grid container available");
-      return;
+// DOM Elements
+const gridContainer = document.getElementById('gridContainer');
+const startButton = document.getElementById('start');
+const clearButton = document.getElementById('clear');
+
+// Initialize the game grid
+function initializeGrid() {
+  // Create table element
+  const table = document.createElement('table');
+  const { rows, cols } = game.getDimensions();
+  
+  for (let i = 0; i < rows; i++) {
+    const row = document.createElement('tr');
+    
+    for (let j = 0; j < cols; j++) {
+      const cell = document.createElement('td');
+      cell.classList.add('dead');
+      cell.dataset.row = i;
+      cell.dataset.col = j;
+      
+      // Toggle cell state on click
+      cell.addEventListener('click', () => toggleCell(i, j));
+      
+      row.appendChild(cell);
     }
     
-    const { rows, cols } = this.game.getDimensions();
-    const table = document.createElement("table");
-
-    for (let row = 0; row < rows; row++) {
-      const tr = document.createElement("tr");
-      for (let col = 0; col < cols; col++) {
-        const cell = document.createElement("td");
-        cell.setAttribute("id", row + "_" + col);
-        cell.setAttribute("class", "dead");
-				cell.addEventListener("click", () => this.handleCellClick(cell, row, col));
-        tr.appendChild(cell);
-      }
-      table.appendChild(tr);
-    }
-    gridContainer.appendChild(table);
+    table.appendChild(row);
   }
+  
+  gridContainer.innerHTML = '';
+  gridContainer.appendChild(table);
+}
 
-  /**
-   * Handle cell click events
-   * @param {HTMLElement} cell - The cell element
-   * @param {Number} row - Row index
-   * @param {Number} col - Column index
-   */
-  handleCellClick(cell, row, col) {
-    const isAlive = cell.classList.contains("live");
-    
-    if (isAlive) {
-      cell.setAttribute("class", "dead");
-      this.game.setCell(row, col, 0);
-    } else {
-      cell.setAttribute("class", "live");
-      this.game.setCell(row, col, 1);
-    }
+// Toggle cell state
+function toggleCell(row, col) {
+  const currentState = game.getCell(row, col);
+  game.setCell(row, col, currentState === 0 ? 1 : 0);
+  updateCellDisplay(row, col);
+}
+
+// Update cell display based on state
+function updateCellDisplay(row, col) {
+  const cell = document.querySelector(`td[data-row="${row}"][data-col="${col}"]`);
+  if (game.getCell(row, col) === 1) {
+    cell.classList.remove('dead');
+    cell.classList.add('live');
+  } else {
+    cell.classList.remove('live');
+    cell.classList.add('dead');
   }
+}
 
-  /**
-   * Update the visual representation of the game grid
-   */
-  updateView() {
-    const { rows, cols } = this.game.getDimensions();
-    
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        const cell = document.getElementById(i + "_" + j);
-        if (cell) {
-          if (this.game.getCell(i, j) === 0)
-            cell.setAttribute("class", "dead");
-          else
-            cell.setAttribute("class", "live");
-        }
-      }
-    }
-  }
-
-  /**
-   * Set up control buttons event handlers
-   */
-  setUpControlButtons() {
-    const startButton = document.getElementById("start");
-    if (startButton) {
-      startButton.onclick = this.handleStartButton.bind(this);
-    }
-
-    const clearButton = document.getElementById("clear");
-    if (clearButton) {
-      clearButton.onclick = this.handleClearButton.bind(this);
-    }
-  }
-
-  /**
-   * Clear button handler - resets the game
-   */
-  handleClearButton() {
-    this.playing = false;
-    const startButton = document.getElementById("start");
-    if (startButton) {
-      startButton.innerHTML = "start";
-    }
-    
-    clearTimeout(this.timer);
-    this.game.resetGrids();
-    this.updateView();
-  }
-
-  /**
-   * Start/pause button handler
-   */
-  handleStartButton(event) {
-    if (this.playing) {
-      this.playing = false;
-      event.target.innerHTML = "continue";
-      clearTimeout(this.timer);
-    } else {
-      this.playing = true;
-      event.target.innerHTML = "pause";
-      this.play();
-    }
-  }
-
-  /**
-   * Advance the game state and update the view
-   */
-  play() {
-    this.game.computeNextGen();
-    this.updateView();
-    
-    if (this.playing) {
-      this.timer = setTimeout(() => this.play(), this.reproductionTime);
+// Update display to match current grid state
+function updateDisplay() {
+  const { rows, cols } = game.getDimensions();
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      updateCellDisplay(i, j);
     }
   }
 }
 
-// Start the app when the window loads
-window.onload = () => {
-  const gameUI = new GameOfLifeUI();
-  gameUI.initialize();
-};
+// Apply game rules to update the grid
+function calculateNextGeneration() {
+  game.computeNextGen();
+  updateDisplay();
+}
 
-export default GameOfLifeUI;
+// Start/pause game simulation
+function toggleSimulation() {
+  isRunning = !isRunning;
+  
+  if (isRunning) {
+    intervalId = setInterval(calculateNextGeneration, UPDATE_INTERVAL_MS);
+    startButton.querySelector('.icon i').className = 'fas fa-pause';
+    startButton.querySelector('.text').textContent = 'pause';
+  } else {
+    clearInterval(intervalId);
+    intervalId = null;
+    startButton.querySelector('.icon i').className = 'fas fa-play';
+    startButton.querySelector('.text').textContent = 'start';
+  }
+}
+
+// Clear the grid
+function clearGrid() {
+  // Stop the simulation if it's running
+  if (isRunning) {
+    toggleSimulation();
+  }
+  
+  // Reset all cells to dead state
+  game.resetGrids();
+  updateDisplay();
+}
+
+// Event listeners
+startButton.addEventListener('click', toggleSimulation);
+clearButton.addEventListener('click', clearGrid);
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (event) => {
+  // Space bar to toggle simulation
+  if (event.code === 'Space') {
+    event.preventDefault(); // Prevent page scroll
+    toggleSimulation();
+  }
+  
+  // Delete key to clear grid
+  if (event.code === 'Delete') {
+    clearGrid();
+  }
+});
+
+// Initialize the game
+initializeGrid();
