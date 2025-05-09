@@ -18,22 +18,24 @@
   </head>
   <body>
     <h1>Conway's Game of Life</h1>
-    <div id="gridContainer"></div>
-
-    <div id="controls">
-      <button type="button" id="start" class="btn-primary">
-        <span class="icon"><i class="fas fa-play"></i></span>
-        <span class="text">start</span>
-      </button>
-      <button type="button" id="clear" class="btn-clear">
-        <span class="icon"><i class="fas fa-trash"></i></span>
-        <span class="text">clear</span>
-      </button>
-    </div>
-
-    <div class="keyboard-shortcuts">
-      <p><kbd>Space</kbd> - Start/Pause simulation</p>
-      <p><kbd>Delete</kbd> - Clear grid</p>
+    <div id="board">
+      <div id="gridContainer"></div>
+      <div id="controlsContainer">
+        <div class="controls">
+          <button type="button" id="start" class="btn-primary">
+            <span class="icon"><i class="fas fa-play"></i></span>
+            <span class="text">start</span>
+          </button>
+          <button type="button" id="clear" class="btn-clear">
+            <span class="icon"><i class="fas fa-trash"></i></span>
+            <span class="text">clear</span>
+          </button>
+        </div>
+        <div class="keyboard-shortcuts">
+          <p><kbd>Space</kbd> - Start/Pause simulation</p>
+          <p><kbd>Delete</kbd> - Clear grid</p>
+        </div>
+      </div>
     </div>
   </body>
 </html>

@@ -1,0 +1,32 @@
+:root {
+  /* Base color scheme (light mode defaults) */
+  --color-background: #c8c8c8;
+  --color-text: #333333;
+  --color-heading: #1d1d1f;
+  --color-grid-bg: #d1d1d6;
+  --color-cell-border: #b8b8bf;
+  --color-cell-live: #2c2c2e;
+  --color-cell-dead: transparent;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow-cell: rgba(0, 0, 0, 0.2);
+
+  /* Button colors - light mode */
+  --button-primary-bg: #0071e3;
+  --button-primary-text: white;
+  --button-clear-bg: #e05d44;
+  --button-clear-text: white;
+  --button-focus-outline: #0071e3;
+
+  /* Size and spacing */
+  --cell-size: 18px;
+  --grid-gap: 1px;
+  --corner-radius: 4px;
+
+  /* Button styling */
+  --button-padding-block: 0.5rem;
+  --button-padding-inline: 1rem;
+  --button-font-size: 1.25rem;
+  --button-radius: 0.3rem;
+  --button-hover-opacity: 0.9;
+  --button-active-scale: 0.98;
+}

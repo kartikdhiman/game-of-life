@@ -1,9 +1,15 @@
-import './style.css';
+import './styles/style.css';
 import GameOfLife from './life.js';
 
 // Game settings
-const ROWS = 16;
-const COLS = 16;
+let ROWS, COLS;
+if (window.matchMedia("(max-width: 600px)").matches) {
+  ROWS = 16;
+  COLS = 16;
+} else {
+  ROWS = 48;
+  COLS = 48;
+}
 const UPDATE_INTERVAL_MS = 150;
 
 // Game state
@@ -18,7 +24,7 @@ const clearButton = document.getElementById('clear');
 
 // Initialize the game grid
 function initializeGrid() {
-  // Create table element
+  // Create a table element
   const table = document.createElement('table');
   const { rows, cols } = game.getDimensions();
   
@@ -63,7 +69,7 @@ function updateCellDisplay(row, col) {
   }
 }
 
-// Update display to match current grid state
+// Update display to match the current grid state
 function updateDisplay() {
   const { rows, cols } = game.getDimensions();
   for (let i = 0; i < rows; i++) {
@@ -102,7 +108,7 @@ function clearGrid() {
     toggleSimulation();
   }
   
-  // Reset all cells to dead state
+  // Reset all cells to the dead state
   game.resetGrids();
   updateDisplay();
 }

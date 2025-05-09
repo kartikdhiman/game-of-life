@@ -2,9 +2,13 @@
  * Game of Life logic class
  */
 class GameOfLife {
+  /** @type {number}   */
   rows;
+  /** @type {number} */
   cols;
+  /** @type {Array<Array<number>>} */
   grid;
+  /** @type {Array<Array<number>>} */
   nextGrid;
 
   constructor(rows, cols) {
@@ -70,13 +74,20 @@ class GameOfLife {
   }
 
   // PRIVATE METHODS
-  
+
   /**
    * Creates and initializes a grid with 0
    * @private
+   * @returns {number[][]} A 2D array of numbers initialized with zeros
    */
   #initGrid() {
-    return Array(this.rows).fill().map(() => Array(this.cols).fill(0));
+    const grid = [];
+    for (let i = 0; i < this.rows; i++) {
+      grid[i] = [];
+      for (let j = 0; j < this.cols; j++)
+        grid[i][j] = 0;
+    }
+    return grid;
   }
 
   /**
@@ -94,8 +105,8 @@ class GameOfLife {
 
   /**
    * Apply the rules of the Game of Life
-   * @param {Number} row 
-   * @param {Number} col 
+   * @param {Number} row
+   * @param {Number} col
    * @private
    */
   #applyRules(row, col) {
@@ -112,7 +123,7 @@ class GameOfLife {
   }
 
   /**
-   * Counts the number of neighbors of a cell
+   * Counts the number of neighbors for a cell
    * @param {Number} row 
    * @param {Number} col 
    * @private

@@ -1,0 +1,20 @@
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #121214;
+    --color-text: #f5f5f7;
+    --color-heading: #ffffff;
+    --color-grid-bg: #2c2c2e;
+    --color-cell-border: #48484a;
+    --color-cell-live: #f5f5f7;
+    --color-cell-dead: transparent;
+    --color-shadow: rgba(0, 0, 0, 0.4);
+    --color-shadow-cell: rgba(255, 255, 255, 0.15);
+
+    /* Button colors - dark mode */
+    --button-primary-bg: #0a84ff;
+    --button-primary-text: white;
+    --button-clear-bg: #ff453a;
+    --button-clear-text: white;
+    --button-focus-outline: #0a84ff;
+  }
+}
