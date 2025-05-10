@@ -1,5 +1,6 @@
 import './styles/style.css';
-import GameOfLife from './life.js';
+import { GameOfLife } from './core/GameOfLife.js';
+import CellState from "./models/CellState";
 
 // Game settings
 let ROWS, COLS;
@@ -12,19 +13,15 @@ if (window.matchMedia("(max-width: 600px)").matches) {
 }
 const UPDATE_INTERVAL_MS = 150;
 
-// Game state
 let isRunning = false;
 let intervalId = null;
 const game = new GameOfLife(ROWS, COLS);
 
-// DOM Elements
 const gridContainer = document.getElementById('gridContainer');
 const startButton = document.getElementById('start');
 const clearButton = document.getElementById('clear');
 
-// Initialize the game grid
 function initializeGrid() {
-  // Create a table element
   const table = document.createElement('table');
   const { rows, cols } = game.getDimensions();
   
@@ -36,13 +33,9 @@ function initializeGrid() {
       cell.classList.add('dead');
       cell.dataset.row = i;
       cell.dataset.col = j;
-      
-      // Toggle cell state on click
       cell.addEventListener('click', () => toggleCell(i, j));
-      
       row.appendChild(cell);
     }
-    
     table.appendChild(row);
   }
   
@@ -52,15 +45,19 @@ function initializeGrid() {
 
 // Toggle cell state
 function toggleCell(row, col) {
-  const currentState = game.getCell(row, col);
-  game.setCell(row, col, currentState === 0 ? 1 : 0);
-  updateCellDisplay(row, col);
+  const newState = game.toggleCell(row, col);
+  updateCellDisplay(row, col, newState);
 }
 
 // Update cell display based on state
-function updateCellDisplay(row, col) {
+function updateCellDisplay(row, col, state = null) {
   const cell = document.querySelector(`td[data-row="${row}"][data-col="${col}"]`);
-  if (game.getCell(row, col) === 1) {
+  if (!cell) return;
+  
+  // If state is not provided, get it from the game
+  const cellState = state !== null ? state : game.getCell(row, col);
+  
+  if (cellState === CellState.ALIVE) {
     cell.classList.remove('dead');
     cell.classList.add('live');
   } else {
@@ -69,7 +66,6 @@ function updateCellDisplay(row, col) {
   }
 }
 
-// Update display to match the current grid state
 function updateDisplay() {
   const { rows, cols } = game.getDimensions();
   for (let i = 0; i < rows; i++) {
@@ -81,11 +77,10 @@ function updateDisplay() {
 
 // Apply game rules to update the grid
 function calculateNextGeneration() {
-  game.computeNextGen();
+  game.computeNextGeneration();
   updateDisplay();
 }
 
-// Start/pause game simulation
 function toggleSimulation() {
   isRunning = !isRunning;
   
@@ -101,31 +96,25 @@ function toggleSimulation() {
   }
 }
 
-// Clear the grid
 function clearGrid() {
-  // Stop the simulation if it's running
   if (isRunning) {
     toggleSimulation();
   }
   
   // Reset all cells to the dead state
-  game.resetGrids();
+  game.resetGrid();
   updateDisplay();
 }
 
-// Event listeners
 startButton.addEventListener('click', toggleSimulation);
 clearButton.addEventListener('click', clearGrid);
 
-// Keyboard shortcuts
 document.addEventListener('keydown', (event) => {
-  // Space bar to toggle simulation
   if (event.code === 'Space') {
     event.preventDefault(); // Prevent page scroll
     toggleSimulation();
   }
   
-  // Delete key to clear grid
   if (event.code === 'Delete') {
     clearGrid();
   }
