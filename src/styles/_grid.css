@@ -1,18 +1,18 @@
-/* Game grid styling */
 table {
   background-color: var(--color-grid-bg);
   border-radius: var(--corner-radius);
   border-spacing: var(--grid-gap);
   border-collapse: separate;
   box-shadow: 0 4px 6px var(--color-shadow);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: var(--transition-colors);
+  backface-visibility: hidden;
 
   & td {
     border: 1px solid var(--color-cell-border);
     width: var(--cell-size);
     height: var(--cell-size);
     border-radius: calc(var(--corner-radius) / 2);
-    transition: background-color 0.15s ease-in-out, border-color 0.3s ease;
+    transition: var(--transition-colors);
 
     &.dead {
       background-color: var(--color-cell-dead);
@@ -21,9 +21,6 @@ table {
     &.live {
       background-color: var(--color-cell-live);
       box-shadow: 0 0 2px var(--color-shadow-cell);
-    }
-
-    &.live {
       transform: scale(1.03);
       transition: transform 0.1s ease, background-color 0.15s ease-in-out;
 
@@ -35,30 +32,5 @@ table {
     &:hover {
       opacity: 0.9;
     }
-
-    @media (prefers-reduced-motion) {
-      transition: none;
-      transform: none !important;
-    }
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  table,
-  td {
-    transition: background-color 0.5s ease, border-color 0.5s ease;
-  }
-}
-
-@media (prefers-reduced-motion) {
-  table td {
-    transition: none;
-  }
-}
-
-@media (max-width: 600px) {
-  :root {
-    --cell-size: 24px;
-    --button-font-size: 1rem;
   }
 }

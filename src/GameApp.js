@@ -8,8 +8,8 @@ if (window.matchMedia("(max-width: 600px)").matches) {
   ROWS = 16;
   COLS = 16;
 } else {
-  ROWS = 48;
-  COLS = 48;
+  ROWS = 32;
+  COLS = 32;
 }
 const UPDATE_INTERVAL_MS = 150;
 
