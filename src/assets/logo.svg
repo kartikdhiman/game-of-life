@@ -1,0 +1,22 @@
+<svg width="84" height="84" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        /* Styles for the cells */
+        .cell {
+            fill: #333; /* Default fill color for dark theme */
+            stroke: #fff; /* Default stroke color for dark theme */
+            stroke-width: 4; /* Increased stroke width for larger size */
+        }
+
+        /* Style adjustment for light theme (you can apply this class to the svg element) */
+        .light-theme .cell {
+            fill: #ccc; /* Fill color for light theme */
+            stroke: #333; /* Stroke color for light theme */
+        }
+    </style>
+
+    <rect x="1" y="1" width="20" height="20" class="cell"/>
+    <rect x="21" y="21" width="20" height="20" class="cell"/>
+    <rect x="41" y="21" width="20" height="20" class="cell"/>
+    <rect x="1" y="41" width="20" height="20" class="cell"/>
+    <rect x="21" y="41" width="20" height="20" class="cell"/>
+</svg>

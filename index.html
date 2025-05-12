@@ -14,28 +14,41 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <script type="module">
+      import logoUrl from './src/assets/logo.svg'
+      document.querySelector('#logo').src = logoUrl
+    </script>
     <script type="module" src="./src/GameApp.js"></script>
   </head>
   <body class="flex-column">
-    <h1 class="text-center">Conway's Game of Life</h1>
-    <div id="board">
-      <div id="gridContainer"></div>
-      <div class="controlsContainer">
-        <div class="controls">
-          <button type="button" id="start" class="btn-primary">
-            <span class="icon"><i class="fas fa-play"></i></span>
-            <span class="text">start</span>
-          </button>
-          <button type="button" id="clear" class="btn-clear">
-            <span class="icon"><i class="fas fa-trash"></i></span>
-            <span class="text">clear</span>
-          </button>
+    <header class="page-header">
+      <div class="header-content">
+        <div class="logo-wrapper">
+          <img id="logo" alt="Game of Life Logo" src=""/>
         </div>
-        <div class="keyboard-shortcuts">
-          <p><kbd>Space</kbd> - Start/Pause simulation</p>
-          <p><kbd>Delete</kbd> - Clear grid</p>
-        </div>
+        <h1 class="page-title">Game of Life</h1>
       </div>
-    </div>
+    </header>
+    <main>
+      <section class="play-area" aria-label="Game Board">
+        <div id="gridContainer"></div>
+        <div class="controlsContainer">
+          <div class="controls">
+            <button type="button" id="start" class="btn-primary">
+              <span class="icon"><i class="fas fa-play"></i></span>
+              <span class="text">start</span>
+            </button>
+            <button type="button" id="clear" class="btn-clear">
+              <span class="icon"><i class="fas fa-trash"></i></span>
+              <span class="text">clear</span>
+            </button>
+          </div>
+          <div class="keyboard-shortcuts">
+            <p><kbd>Space</kbd> - Start/Pause simulation</p>
+            <p><kbd>Delete</kbd> - Clear grid</p>
+          </div>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

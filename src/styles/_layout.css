@@ -1,29 +1,63 @@
-#board {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 100%;
-  flex: 1;
-  @media (max-width: 600px) {
-    flex-direction: column;
-    padding: 1rem 0;
+/* Header styling */
+.page-header {
+  padding: 1rem;
+  margin: 1.5rem;
+  
+  & .header-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    & .logo-wrapper {
+      display: flex;
+      align-items: center;
+
+      & #logo {
+        max-height: 50px;
+        width: auto;
+      }
+    }
+    
+    & .page-title {
+      margin: 0;
+      font-size: 1.8rem;
+    }
   }
 }
 
+/* Main content layout */
+main {
+  & .play-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+  }
+}
+
+/* Controls container and related elements */
 .controlsContainer {
   display: flex;
   flex-direction: column;
+  
   @media (max-width: 600px) {
     align-items: center;
     width: 100%;
     margin-top: 2rem;
   }
 
-  .controls {
+  & .controls {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     width: 100%;
+    
     @media (max-width: 600px) {
       margin-top: 1rem;
       width: 80%;
@@ -31,7 +65,7 @@
     }
   }
 
-  .keyboard-shortcuts {
+  & .keyboard-shortcuts {
     margin-top: 2rem;
     text-align: center;
     font-size: 0.9rem;
